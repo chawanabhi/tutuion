@@ -3,6 +3,27 @@
  */
 
 const ALLOWED_PROTOCOLS = new Set(["https:", "http:", "mailto:", "tel:"]);
+const GITHUB_PAGES_BASE_PATH =
+  process.env.NEXT_PUBLIC_GITHUB_PAGES === "true" ? "/tutuion" : "";
+
+export function withBasePath(path: string): string {
+  if (
+    !GITHUB_PAGES_BASE_PATH ||
+    !path.startsWith("/") ||
+    path.startsWith("//")
+  ) {
+    return path;
+  }
+
+  if (
+    path === GITHUB_PAGES_BASE_PATH ||
+    path.startsWith(`${GITHUB_PAGES_BASE_PATH}/`)
+  ) {
+    return path;
+  }
+
+  return `${GITHUB_PAGES_BASE_PATH}${path}`;
+}
 
 export function isSafeExternalUrl(url: string): boolean {
   try {

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { BUSINESS, SITE_DESCRIPTION, SITE_NAME } from "@/config/site";
+import { withBasePath } from "@/lib/urls";
 
 export function AboutTeaser() {
   return (
@@ -11,7 +12,7 @@ export function AboutTeaser() {
           <ScrollReveal>
             <div className="visual-frame relative h-[22rem] sm:h-[28rem]">
               <Image
-                src="/images/open-book.jpg"
+                src={withBasePath("/images/open-book.jpg")}
                 alt=""
                 fill
                 loading="lazy"

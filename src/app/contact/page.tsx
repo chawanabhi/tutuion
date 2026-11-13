@@ -6,6 +6,7 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ExternalLink } from "@/components/ui/ExternalLink";
 import { BUSINESS, SITE_NAME } from "@/config/site";
+import { withBasePath } from "@/lib/urls";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -80,7 +81,7 @@ export default function ContactPage() {
           <ScrollReveal delay={1}>
             <article className="relative min-h-[28rem] overflow-hidden rounded-[1.5rem]">
               <Image
-                src="/images/hero-library.jpg"
+                src={withBasePath("/images/hero-library.jpg")}
                 alt=""
                 fill
                 loading="lazy"

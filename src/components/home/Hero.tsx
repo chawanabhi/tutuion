@@ -6,6 +6,7 @@ import { RealisticBooks } from "@/components/home/RealisticBooks";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { BUSINESS } from "@/config/site";
 import { usePointerParallax } from "@/hooks/usePointerParallax";
+import { withBasePath } from "@/lib/urls";
 
 export function Hero() {
   const heroRef = usePointerParallax<HTMLElement>({ intensity: 1 });
@@ -18,7 +19,7 @@ export function Hero() {
     >
       <div className="hero-media" aria-hidden="true">
         <Image
-          src="/images/hero-library.jpg"
+          src={withBasePath("/images/hero-library.jpg")}
           alt=""
           fill
           priority

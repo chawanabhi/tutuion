@@ -4,6 +4,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Academic3DBackground } from "@/components/visuals/Academic3DBackground";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { withBasePath } from "@/lib/urls";
 import {
   BUSINESS,
   OBJECTIVES,
@@ -64,7 +65,7 @@ export default function AboutPage() {
             <aside className="relative overflow-hidden rounded-[1.5rem]">
               <div className="relative h-[22rem] sm:h-full min-h-[22rem]">
                 <Image
-                  src="/images/open-book.jpg"
+                  src={withBasePath("/images/open-book.jpg")}
                   alt=""
                   fill
                   loading="lazy"

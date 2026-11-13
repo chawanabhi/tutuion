@@ -72,6 +72,8 @@
 import type { NextConfig } from "next";
 
 const isProduction = process.env.NODE_ENV === "production";
+const isGitHubPagesBuild =
+  isProduction && process.env.GITHUB_PAGES === "true";
 
 const securityHeaders = [
   {
@@ -118,17 +120,31 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  cacheComponents: true,
-  partialPrefetching: true,
-
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: securityHeaders,
-      },
-    ];
+  ...(isGitHubPagesBuild
+    ? {
+        output: "export" as const,
+        basePath: "/tutuion",
+      }
+    : {}),
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
   },
+  env: {
+    NEXT_PUBLIC_GITHUB_PAGES: isGitHubPagesBuild ? "true" : "false",
+  },
+  ...(!isGitHubPagesBuild
+    ? {
+        async headers() {
+          return [
+            {
+              source: "/:path*",
+              headers: securityHeaders,
+            },
+          ];
+        },
+      }
+    : {}),
 };
 
 export default nextConfig;

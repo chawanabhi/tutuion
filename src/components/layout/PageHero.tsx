@@ -1,5 +1,6 @@
 
 import Image from "next/image";
+import { withBasePath } from "@/lib/urls";
 
 type PageHeroProps = {
   eyebrow?: string;
@@ -22,7 +23,7 @@ export function PageHero({
       {/* Background Image */}
       <div className="page-hero-media absolute inset-0 -z-20">
         <Image
-          src={imageSrc}
+          src={withBasePath(imageSrc)}
           alt=""
           fill
           priority

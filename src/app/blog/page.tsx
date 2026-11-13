@@ -5,6 +5,7 @@ import { Academic3DBackground } from "@/components/visuals/Academic3DBackground"
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { BUSINESS, SITE_NAME } from "@/config/site";
+import { withBasePath } from "@/lib/urls";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -29,7 +30,7 @@ export default function BlogPage() {
             <article className="grid overflow-hidden rounded-[1.75rem] border border-[#10294a14] bg-white/60 shadow-[0_24px_60px_rgba(7,20,38,0.08)] md:grid-cols-[0.9fr_1.1fr]">
               <div className="relative min-h-[18rem]">
                 <Image
-                  src="/images/study-atmosphere.jpg"
+                  src={withBasePath("/images/study-atmosphere.jpg")}
                   alt=""
                   fill
                   loading="lazy"

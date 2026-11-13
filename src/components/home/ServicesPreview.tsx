@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { SERVICES } from "@/config/site";
+import { withBasePath } from "@/lib/urls";
 
 const SERVICE_VISUALS = [
   {
@@ -58,7 +59,7 @@ export function ServicesPreview() {
                   >
                     <div className="visual-frame relative h-[18rem] sm:h-[22rem]">
                       <Image
-                        src={visual.image}
+                        src={withBasePath(visual.image)}
                         alt=""
                         fill
                         loading="lazy"

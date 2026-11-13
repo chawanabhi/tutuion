@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { BUSINESS } from "@/config/site";
+import { withBasePath } from "@/lib/urls";
 
 export function CtaBand() {
   return (
@@ -10,7 +11,7 @@ export function CtaBand() {
         <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[1.75rem]">
           <div className="absolute inset-0">
             <Image
-              src="/images/study-atmosphere.jpg"
+              src={withBasePath("/images/study-atmosphere.jpg")}
               alt=""
               fill
               loading="lazy"

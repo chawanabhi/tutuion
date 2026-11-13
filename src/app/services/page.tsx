@@ -5,6 +5,7 @@ import { Academic3DBackground } from "@/components/visuals/Academic3DBackground"
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { SERVICES, SITE_NAME } from "@/config/site";
+import { withBasePath } from "@/lib/urls";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -54,7 +55,7 @@ export default function ServicesPage() {
                   >
                     <div className="visual-frame relative h-[18rem] sm:h-[24rem]">
                       <Image
-                        src={VISUALS[index]}
+                        src={withBasePath(VISUALS[index])}
                         alt=""
                         fill
                         loading="lazy"
@@ -80,7 +81,7 @@ export default function ServicesPage() {
           <ScrollReveal className="mt-16">
             <div className="relative overflow-hidden rounded-[1.5rem] bg-midnight">
               <Image
-                src="/images/study-atmosphere.jpg"
+                src={withBasePath("/images/study-atmosphere.jpg")}
                 alt=""
                 fill
                 loading="lazy"
