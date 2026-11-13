@@ -191,25 +191,38 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+
 import { CloseIcon, MenuIcon } from "@/components/icons/ServiceIcons";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { NAV_LINKS, SITE_NAME } from "@/config/site";
 
 export function Header() {
   const pathname = usePathname();
+
   const [open, setOpen] = useState(false);
-  const [menuPath, setMenuPath] = useState(pathname);
   const [overHero, setOverHero] = useState(pathname === "/");
+
   const panelId = useId();
 
-  if (pathname !== menuPath) {
-    setMenuPath(pathname);
-    if (open) {
-      setOpen(false);
-    }
-  }
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const wasOpenRef = useRef(false);
 
+  // Close the mobile menu and restore focus to its toggle button.
+  const closeMenu = () => {
+    menuButtonRef.current?.focus();
+    setOpen(false);
+  };
+
+  // Close the drawer when the route changes.
+  useEffect(() => {
+    if (open) {
+      closeMenu();
+    }
+  }, [pathname]);
+
+  // Manage the hero header appearance.
   useEffect(() => {
     if (pathname !== "/") {
       const frame = window.requestAnimationFrame(() => {
@@ -225,30 +238,79 @@ export function Header() {
 
     onScroll();
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("scroll", onScroll, {
+      passive: true,
+    });
 
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
   }, [pathname]);
 
+  // Manage mobile drawer focus, keyboard interaction and body scrolling.
   useEffect(() => {
     if (!open) {
+      if (wasOpenRef.current) {
+        menuButtonRef.current?.focus();
+      }
+
+      wasOpenRef.current = false;
       return;
     }
 
+    wasOpenRef.current = true;
+
+    closeButtonRef.current?.focus();
+
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setOpen(false);
+        event.preventDefault();
+        closeMenu();
+      }
+
+      // Keep keyboard focus inside the open mobile dialog.
+      if (event.key === "Tab") {
+        const panel = document.getElementById(panelId);
+
+        if (!panel) return;
+
+        const focusableElements = panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement =
+          focusableElements[focusableElements.length - 1];
+
+        if (
+          event.shiftKey &&
+          document.activeElement === firstElement
+        ) {
+          event.preventDefault();
+          lastElement.focus();
+        } else if (
+          !event.shiftKey &&
+          document.activeElement === lastElement
+        ) {
+          event.preventDefault();
+          firstElement.focus();
+        }
       }
     };
 
     document.addEventListener("keydown", onKeyDown);
-    document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousOverflow;
     };
-  }, [open]);
+  }, [open, panelId]);
 
   return (
     <>
@@ -320,6 +382,7 @@ export function Header() {
 
           {/* Mobile Menu Toggle */}
           <button
+            ref={menuButtonRef}
             type="button"
             className={`inline-flex items-center justify-center rounded-[0.55rem] border p-2.5 transition lg:hidden ${
               overHero
@@ -329,18 +392,25 @@ export function Header() {
             aria-expanded={open}
             aria-controls={panelId}
             aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen((value) => !value)}
+            onClick={() => {
+              if (open) {
+                closeMenu();
+              } else {
+                setOpen(true);
+              }
+            }}
           >
             {open ? <CloseIcon /> : <MenuIcon />}
           </button>
         </div>
       </header>
 
-      {/* Mobile Drawer - Outside Header */}
+      {/* Mobile Drawer */}
       <div
         className={`mobile-drawer ${open ? "is-open" : ""}`}
-        onClick={() => setOpen(false)}
         aria-hidden={!open}
+        inert={!open}
+        onClick={closeMenu}
       >
         <div
           id={panelId}
@@ -357,10 +427,11 @@ export function Header() {
             </p>
 
             <button
+              ref={closeButtonRef}
               type="button"
               className="rounded-[0.55rem] border border-midnight/15 p-2 text-midnight"
               aria-label="Close menu"
-              onClick={() => setOpen(false)}
+              onClick={closeMenu}
             >
               <CloseIcon />
             </button>
@@ -381,10 +452,9 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  tabIndex={open ? 0 : -1}
                   className="mobile-nav-link rounded-[0.7rem] px-3 py-2.5 text-lg font-semibold transition"
                   aria-current={isCurrent ? "page" : undefined}
-                  onClick={() => setOpen(false)}
+                  onClick={closeMenu}
                 >
                   {link.label}
                 </Link>

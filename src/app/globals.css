@@ -1593,3 +1593,40 @@ body {
     transition: none !important;
   }
 }
+/* ---------- Mobile navigation visibility fix ---------- */
+.mobile-panel {
+  position: absolute;
+  z-index: 61;
+  overflow-y: auto;
+  max-height: 100vh;
+  max-height: 100dvh;
+  background: #fbf9f4;
+  color: #071426;
+}
+
+.mobile-panel nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.mobile-panel nav a {
+  display: block;
+  width: 100%;
+  color: #071426 !important;
+  background: transparent;
+  opacity: 1;
+  visibility: visible;
+  text-decoration: none;
+  padding: 0.75rem;
+  border-radius: 0.7rem;
+}
+
+.mobile-panel nav a:hover,
+.mobile-panel nav a[aria-current="page"] {
+  color: #071426 !important;
+  background: #ece6d8;
+}
+

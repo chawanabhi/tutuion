@@ -36,20 +36,25 @@ export default function AboutPage() {
             <article>
               <p className="section-eyebrow">Who we are</p>
               <h2 className="display-title text-midnight">
-                A thoughtful platform for learning relationships
+              Bridging Parents and Tutors. Building Better Learning
               </h2>
-              <p className="lead mt-5">
-                {SITE_NAME} is building a refined way for students and parents
-                to connect with qualified tutors for personalized home tuition,
-                online sessions, and academic support across various subjects
-                and grade levels.
-              </p>
-              <p className="mt-4 leading-relaxed text-ink-soft">
-                The platform is registered under {BUSINESS.registeredUnder} and
-                is based in Hyderabad. This website shares our purpose, planned
-                services, and how to reach us while registration forms are being
-                prepared.
-              </p>
+    
+<p className="lead mt-5">
+  {SITE_NAME} is a professional tuition service provider connecting parents
+  with qualified tutors for personalized home tuition and online learning.
+</p>
+
+<p className="mt-4 leading-relaxed text-ink-soft">
+  We coordinate the entire process, from registration and demo classes to
+  feedback and official tuition confirmation, ensuring a smooth and reliable
+  experience for parents, students, and tutors.
+</p>
+
+<p className="mt-5 leading-relaxed text-ink-soft">
+  <strong className="text-midnight">Our Mission:</strong> Making quality
+  education accessible through trusted connections between parents and tutors.
+</p>
+
               <div className="mt-8 flex flex-wrap gap-3">
                 <ButtonLink href="/register/student" variant="primary">
                   Register as Student
